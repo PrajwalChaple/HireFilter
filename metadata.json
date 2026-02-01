@@ -1,0 +1,5 @@
+{
+  "name": "HireFilter",
+  "description": "An AI-powered job portal with explainable resume matching and role-based access control.",
+  "requestFramePermissions": []
+}
