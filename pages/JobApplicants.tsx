@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Job, Application } from '../types';
 import { storageService } from '../services/storageService';
+import { ArrowLeft, Users, ChevronRight } from 'lucide-react';
 
 interface JobApplicantsProps {
     user: User;
@@ -50,7 +51,7 @@ const JobApplicants: React.FC<JobApplicantsProps> = ({ user, jobId, onBack, onVi
     return (
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <button onClick={onBack} className="group mb-6 inline-flex items-center text-sm font-semibold text-gray-500 hover:text-gray-900 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-200 transition-colors">
-                <svg className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                 Back to Dashboard
             </button>
 
@@ -63,7 +64,7 @@ const JobApplicants: React.FC<JobApplicantsProps> = ({ user, jobId, onBack, onVi
             {applications.length === 0 ? (
                 <div className="bg-white rounded-3xl border border-gray-100 shadow-sm py-20 text-center">
                     <div className="w-20 h-20 bg-gray-50 text-gray-300 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                        <Users className="w-10 h-10" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900">No applicants yet</h3>
                     <p className="text-gray-500 mt-2">Applications will appear here as candidates apply.</p>
@@ -131,9 +132,7 @@ const JobApplicants: React.FC<JobApplicantsProps> = ({ user, jobId, onBack, onVi
                                     </div>
 
                                     {/* Arrow */}
-                                    <svg className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                                    </svg>
+                                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors flex-shrink-0" />
                                 </div>
                             </div>
                         );

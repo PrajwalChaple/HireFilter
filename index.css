@@ -1,3 +1,4 @@
+/* ─── Blob animation ─── */
 @keyframes blob {
   0% { transform: translate(0px, 0px) scale(1); }
   33% { transform: translate(30px, -50px) scale(1.1); }
@@ -8,28 +9,44 @@
 .animation-delay-2000 { animation-delay: 2s; }
 .animation-delay-4000 { animation-delay: 4s; }
 
+/* ─── Fade in up ─── */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
 
+/* ─── Slide in ─── */
 @keyframes slideIn {
   from { opacity: 0; transform: translateX(-20px); }
   to { opacity: 1; transform: translateX(0); }
 }
 .animate-slide-in { animation: slideIn 0.4s ease-out forwards; }
 
+/* ─── Progress fill ─── */
 @keyframes progressFill {
   from { width: 0%; }
 }
 .animate-progress { animation: progressFill 1s ease-out forwards; }
 
+/* ─── Spin ─── */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-/* Dropzone styles */
+/* ─── Hero floating cards ─── */
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+.hero-float-card {
+  animation: heroFloat 4s ease-in-out infinite;
+}
+.hero-float-card:nth-child(2) { animation-delay: 0.5s; }
+.hero-float-card:nth-child(3) { animation-delay: 1s; }
+.hero-float-card:nth-child(4) { animation-delay: 1.5s; }
+
+/* ─── Dropzone styles ─── */
 .dropzone {
   border: 2px dashed #d1d5db;
   border-radius: 1.5rem;
@@ -47,7 +64,7 @@
   background-color: #dbeafe;
 }
 
-/* Custom scrollbar */
+/* ─── Custom scrollbar ─── */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -62,10 +79,73 @@
   background: #94a3b8;
 }
 
-/* Glassmorphism utility */
+/* ─── Glassmorphism utility ─── */
 .glass {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.8);
 }
+
+/* ─── Smooth scroll ─── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ─── Responsive overrides for landing ─── */
+@media (max-width: 768px) {
+  section[id="product"] {
+    grid-template-columns: 1fr !important;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+  section[id="product"] > div:last-child {
+    display: none !important;
+  }
+  section[id="how-it-works"] {
+    grid-template-columns: 1fr !important;
+  }
+  section[id="faq"] {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  #stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+  }
+  #features-grid {
+    grid-template-columns: 1fr !important;
+  }
+  #features-detail h2 {
+    font-size: 32px !important;
+  }
+  #cta-banner {
+    flex-direction: column !important;
+    padding: 48px 32px !important;
+    text-align: center;
+  }
+  #cta-banner h2 {
+    font-size: 28px !important;
+  }
+  #footer-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 32px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  section[id="product"] h1 {
+    font-size: 36px !important;
+  }
+  #stats-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 16px !important;
+  }
+  #stats-grid > div > div:nth-child(2) {
+    font-size: 28px !important;
+  }
+  #footer-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+

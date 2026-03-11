@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Job, Application } from '../types';
 import { storageService } from '../services/storageService';
+import { ArrowLeft, Mail, Clock, FileText, Bot, Target, Briefcase, GraduationCap, BarChart2, AlertTriangle, Search, ClipboardList, CheckCircle2, XCircle } from 'lucide-react';
 
 interface ApplicantDetailProps {
     user: User;
@@ -60,7 +61,7 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
         <div className="bg-gray-50 min-h-screen">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <button onClick={onBack} className="group mb-6 inline-flex items-center text-sm font-semibold text-gray-500 hover:text-gray-900 bg-white px-4 py-2 rounded-full shadow-sm border border-gray-200 transition-colors">
-                    <svg className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                     Back to Applicants
                 </button>
 
@@ -82,11 +83,11 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
                                 <div>
                                     <h1 className="text-3xl font-extrabold">{app.candidateName}</h1>
                                     <p className="text-white/80 mt-1 flex items-center gap-2">
-                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                        <Mail className="w-4 h-4" />
                                         {app.candidateEmail}
                                     </p>
                                     <p className="text-white/60 text-sm mt-1 flex items-center gap-2">
-                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                        <Clock className="w-4 h-4" />
                                         Applied: {appliedDate}
                                     </p>
                                 </div>
@@ -96,13 +97,13 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
                                     <div className="text-4xl font-extrabold">{match}%</div>
                                     <div className="text-xs text-white/70 font-medium mt-1">Match Score</div>
                                 </div>
-                                <div className={`px-5 py-2.5 rounded-xl text-sm font-bold ${accepted ? 'bg-white text-green-700' : 'bg-white text-red-700'}`}>
-                                    {accepted ? '✅ ACCEPTED' : '❌ REJECTED'}
+                                <div className={`px-5 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 ${accepted ? 'bg-white text-green-700' : 'bg-white text-red-700'}`}>
+                                    {accepted ? <><CheckCircle2 className="w-4 h-4" /> ACCEPTED</> : <><XCircle className="w-4 h-4" /> REJECTED</>}
                                 </div>
                                 {app.resumeUrl && (
                                     <a href={app.resumeUrl} target="_blank" rel="noopener noreferrer"
                                         className="inline-flex items-center px-4 py-2.5 bg-white/20 hover:bg-white/30 rounded-xl text-sm font-medium transition-colors backdrop-blur-sm">
-                                        <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                                        <FileText className="w-4 h-4 mr-2" />
                                         View PDF Resume
                                     </a>
                                 )}
@@ -142,7 +143,7 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
                             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                                 <div className="px-6 py-4 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
                                     <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                                        🤖 AI Summary
+                                        <Bot className="w-5 h-5 text-blue-600" /> AI Summary
                                     </h2>
                                 </div>
                                 <div className="px-6 py-5">
@@ -155,7 +156,7 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
                         {analysis && (
                             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                                 <div className="px-6 py-4 border-b border-gray-100">
-                                    <h2 className="text-lg font-bold text-gray-900">🎯 Skills Analysis</h2>
+                                    <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2"><Target className="w-5 h-5 text-indigo-600" /> Skills Analysis</h2>
                                 </div>
                                 <div className="px-6 py-5 space-y-5">
                                     {/* Matched */}
@@ -209,14 +210,14 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                                     <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                                        <span className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-sm">💼</span>
+                                        <span className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600"><Briefcase className="w-4 h-4" /></span>
                                         Experience
                                     </h3>
                                     <p className="text-gray-600 text-sm leading-relaxed">{analysis.experienceMatch}</p>
                                 </div>
                                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                                     <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                                        <span className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-sm">🎓</span>
+                                        <span className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600"><GraduationCap className="w-4 h-4" /></span>
                                         Education
                                     </h3>
                                     <p className="text-gray-600 text-sm leading-relaxed">{analysis.educationMatch}</p>
@@ -230,7 +231,7 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
                         {/* Match Score Ring */}
                         {analysis && (
                             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center">
-                                <h3 className="font-bold text-gray-900 mb-4">📊 Match Score</h3>
+                                <h3 className="font-bold text-gray-900 mb-4 flex items-center justify-center gap-2"><BarChart2 className="w-5 h-5 text-blue-600" /> Match Score</h3>
                                 <div className="relative inline-flex items-center justify-center w-32 h-32">
                                     <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 120 120">
                                         <circle cx="60" cy="60" r="52" fill="none" stroke="#e5e7eb" strokeWidth="8" />
@@ -254,7 +255,7 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
                         {analysis && analysis.gapAnalysis.length > 0 && (
                             <div className="bg-red-50 rounded-2xl border border-red-100 p-6">
                                 <h3 className="font-bold text-red-800 mb-3 flex items-center gap-2">
-                                    <span className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-sm">⚠️</span>
+                                    <span className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-red-600"><AlertTriangle className="w-4 h-4" /></span>
                                     Gaps Identified
                                 </h3>
                                 <ul className="space-y-2">
@@ -272,7 +273,7 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
                         {analysis && analysis.evidence.length > 0 && (
                             <div className="bg-blue-50 rounded-2xl border border-blue-100 p-6">
                                 <h3 className="font-bold text-blue-800 mb-3 flex items-center gap-2">
-                                    <span className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-sm">🔍</span>
+                                    <span className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600"><Search className="w-4 h-4" /></span>
                                     Key Evidence
                                 </h3>
                                 <ul className="space-y-2">
@@ -288,7 +289,7 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
                         {/* Applied For Info */}
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                             <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
-                                <span className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-sm">📋</span>
+                                <span className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600"><ClipboardList className="w-4 h-4" /></span>
                                 Applied For
                             </h3>
                             <div className="space-y-2 text-sm">

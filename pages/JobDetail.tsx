@@ -4,6 +4,7 @@ import { storageService } from '../services/storageService';
 import { extractTextFromPdf } from '../services/pdfService';
 import { analyzeResume } from '../services/aiService';
 import { uploadToCloudinary } from '../services/cloudinaryService';
+import { ArrowLeft, MapPin, Briefcase, Clock, Target, Check, CloudUpload, Info, PartyPopper, ClipboardList, XCircle, CheckCircle2, GraduationCap, Lightbulb, Zap } from 'lucide-react';
 
 interface JobDetailProps {
     user: User;
@@ -128,7 +129,7 @@ const JobDetail: React.FC<JobDetailProps> = ({ user, jobId, onBack }) => {
         <div className="bg-gray-50 min-h-[calc(100vh-4rem)] py-8">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <button onClick={onBack} className="group mb-6 inline-flex items-center text-sm font-semibold text-gray-500 hover:text-gray-900 transition-colors bg-white px-4 py-2 rounded-full shadow-sm border border-gray-200">
-                    <svg className="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    <ArrowLeft className="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" />
                     Back
                 </button>
 
@@ -147,18 +148,20 @@ const JobDetail: React.FC<JobDetailProps> = ({ user, jobId, onBack }) => {
                                 </div>
                             </div>
                             <div className="flex flex-wrap gap-3">
-                                {[
-                                    { icon: 'M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z', label: job.location },
-                                    { icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z', label: job.type },
-                                    { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', label: `${job.minExperience}+ yrs exp` },
-                                ].map((item, i) => (
-                                    <span key={i} className="flex items-center text-sm text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200">
-                                        <svg className="w-4 h-4 mr-1.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} /></svg>
-                                        {item.label}
-                                    </span>
-                                ))}
+                                <span className="flex items-center text-sm text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200">
+                                    <MapPin className="w-4 h-4 mr-1.5 text-gray-400" />
+                                    {job.location}
+                                </span>
+                                <span className="flex items-center text-sm text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200">
+                                    <Briefcase className="w-4 h-4 mr-1.5 text-gray-400" />
+                                    {job.type}
+                                </span>
+                                <span className="flex items-center text-sm text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg border border-gray-200">
+                                    <Clock className="w-4 h-4 mr-1.5 text-gray-400" />
+                                    {job.minExperience}+ yrs exp
+                                </span>
                                 <span className="flex items-center text-sm text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100 font-semibold">
-                                    🎯 Min Match: {job.matchThreshold}%
+                                    <Target className="w-4 h-4 mr-1.5" /> Min Match: {job.matchThreshold}%
                                 </span>
                             </div>
                         </div>
@@ -209,7 +212,7 @@ const JobDetail: React.FC<JobDetailProps> = ({ user, jobId, onBack }) => {
                                         {file ? (
                                             <div className="flex flex-col items-center">
                                                 <div className="w-16 h-16 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-4">
-                                                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
+                                                    <Check className="w-8 h-8" strokeWidth={3} />
                                                 </div>
                                                 <p className="text-lg font-bold text-green-800">{file.name}</p>
                                                 <p className="text-sm text-green-600 mt-1">{(file.size / 1024).toFixed(1)} KB — Ready to analyze</p>
@@ -218,7 +221,7 @@ const JobDetail: React.FC<JobDetailProps> = ({ user, jobId, onBack }) => {
                                         ) : (
                                             <div className="flex flex-col items-center">
                                                 <div className="w-16 h-16 bg-blue-50 text-blue-400 rounded-2xl flex items-center justify-center mb-4">
-                                                    <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                                                    <CloudUpload className="w-8 h-8" strokeWidth={1.5} />
                                                 </div>
                                                 <p className="text-lg font-bold text-gray-700">Drag & drop your resume PDF here</p>
                                                 <p className="text-sm text-gray-500 mt-1">or click to browse</p>
@@ -260,7 +263,7 @@ const JobDetail: React.FC<JobDetailProps> = ({ user, jobId, onBack }) => {
                 {user.role === UserRole.ADMIN && job.creatorId === user.id && (
                     <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200 mt-4">
                         <p className="text-gray-500 font-medium flex items-center gap-2">
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            <Info className="w-5 h-5 text-gray-400" />
                             This is your job posting. View applicants from the dashboard.
                         </p>
                     </div>
@@ -285,7 +288,7 @@ const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, jo
                         <div className="absolute top-1/2 left-1/2 w-64 h-64 border border-white rounded-full -translate-x-1/2 -translate-y-1/2"></div>
                     </div>
                     <div className="relative z-10">
-                        <div className="text-7xl mb-6">🎉</div>
+                        <div className="text-white drop-shadow-lg mb-6 flex justify-center"><PartyPopper size={72} strokeWidth={1.5} /></div>
                         <h2 className="text-4xl font-extrabold mb-3">Congratulations!</h2>
                         <p className="text-xl text-white/90 mb-8">Your profile is a strong match for this role!</p>
                         <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm px-8 py-4 rounded-2xl">
@@ -298,8 +301,8 @@ const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, jo
                     </div>
                 </div>
                 <div className="bg-green-50 px-8 py-6 text-center">
-                    <p className="text-green-800 font-medium">
-                        ✅ Your application has been submitted successfully. The recruiter will review your profile shortly.
+                    <p className="text-green-800 font-medium flex items-center justify-center gap-2">
+                        <CheckCircle2 className="w-5 h-5" /> Your application has been submitted successfully. The recruiter will review your profile shortly.
                     </p>
                 </div>
             </div>
@@ -311,7 +314,7 @@ const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, jo
         <div className="rounded-3xl shadow-xl border border-red-200 overflow-hidden animate-fade-in-up">
             {/* Header */}
             <div className="bg-gradient-to-r from-red-500 to-rose-600 text-white text-center py-10 px-8">
-                <div className="text-5xl mb-4">📋</div>
+                <div className="text-white drop-shadow-lg mb-4 flex justify-center"><ClipboardList size={56} strokeWidth={1.5} /></div>
                 <h2 className="text-3xl font-extrabold mb-2">Application Review Report</h2>
                 <p className="text-lg text-white/80">Your profile didn't meet the minimum requirements for this role.</p>
                 <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm px-6 py-3 rounded-xl mt-6">
@@ -328,7 +331,7 @@ const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, jo
                 {analysis.skillAnalysis.missing.length > 0 && (
                     <div className="bg-red-50 rounded-2xl p-6 border border-red-100">
                         <h3 className="font-bold text-red-800 text-lg mb-1 flex items-center gap-2">
-                            <span className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-sm">❌</span>
+                            <span className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-red-600"><XCircle className="w-5 h-5" /></span>
                             Skills You're Missing
                         </h3>
                         <p className="text-red-600 text-sm mb-4">These skills were required but not found in your resume:</p>
@@ -344,7 +347,7 @@ const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, jo
                 {analysis.skillAnalysis.matched.length > 0 && (
                     <div className="bg-green-50 rounded-2xl p-6 border border-green-100">
                         <h3 className="font-bold text-green-800 text-lg mb-1 flex items-center gap-2">
-                            <span className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-sm">✅</span>
+                            <span className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-green-600"><CheckCircle2 className="w-5 h-5" /></span>
                             Skills You Have
                         </h3>
                         <p className="text-green-600 text-sm mb-4">Great! These were detected in your resume:</p>
@@ -360,13 +363,13 @@ const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, jo
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-orange-50 rounded-2xl p-5 border border-orange-100">
                         <h4 className="font-bold text-orange-800 mb-2 flex items-center gap-2">
-                            <span className="text-lg">💼</span> Experience
+                            <Briefcase className="w-5 h-5" /> Experience
                         </h4>
                         <p className="text-orange-700 text-sm leading-relaxed">{analysis.experienceMatch}</p>
                     </div>
                     <div className="bg-purple-50 rounded-2xl p-5 border border-purple-100">
                         <h4 className="font-bold text-purple-800 mb-2 flex items-center gap-2">
-                            <span className="text-lg">🎓</span> Education
+                            <GraduationCap className="w-5 h-5" /> Education
                         </h4>
                         <p className="text-purple-700 text-sm leading-relaxed">{analysis.educationMatch}</p>
                     </div>
@@ -376,7 +379,7 @@ const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, jo
                 {analysis.gapAnalysis.length > 0 && (
                     <div className="bg-amber-50 rounded-2xl p-6 border border-amber-200">
                         <h3 className="font-bold text-amber-900 text-lg mb-4 flex items-center gap-2">
-                            <span className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center text-sm">💡</span>
+                            <span className="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600"><Lightbulb className="w-5 h-5" /></span>
                             What You Should Improve
                         </h3>
                         <ul className="space-y-3">
@@ -392,8 +395,8 @@ const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, jo
 
                 {/* Encouragement */}
                 <div className="bg-blue-50 rounded-2xl p-6 border border-blue-100 text-center">
-                    <p className="text-blue-800 font-medium text-sm leading-relaxed">
-                        💪 Don't give up! Work on the skills mentioned above and try again. Every rejection is a step closer to your dream job.
+                    <p className="text-blue-800 font-medium text-sm leading-relaxed flex items-center justify-center gap-2">
+                        <Zap className="w-5 h-5 text-blue-500" /> Don't give up! Work on the skills mentioned above and try again. Every rejection is a step closer to your dream job.
                     </p>
                 </div>
             </div>
