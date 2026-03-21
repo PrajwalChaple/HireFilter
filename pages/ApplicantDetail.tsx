@@ -250,6 +250,25 @@ const ApplicantDetail: React.FC<ApplicantDetailProps> = ({ user, jobId, appId, o
                             </div>
                         )}
 
+                        {/* System Warnings — Recruiter sees this */}
+                        {analysis && analysis.warnings && analysis.warnings.length > 0 && (
+                            <div className="bg-amber-50 rounded-2xl border-2 border-amber-300 p-6">
+                                <h3 className="font-bold text-amber-900 mb-3 flex items-center gap-2">
+                                    <span className="w-8 h-8 bg-amber-200 rounded-lg flex items-center justify-center text-amber-700">🛡️</span>
+                                    System Warnings
+                                </h3>
+                                <p className="text-amber-700 text-xs mb-3 font-medium">Our AI detected potential issues with this application:</p>
+                                <ul className="space-y-2">
+                                    {analysis.warnings.map((w, i) => (
+                                        <li key={i} className="text-amber-800 text-sm flex items-start gap-2">
+                                            <span className="w-5 h-5 bg-amber-300 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</span>
+                                            {w}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
 
                         {/* Gap Analysis */}
                         {analysis && analysis.gapAnalysis.length > 0 && (

@@ -63,6 +63,17 @@ function generateLocalAnalysis(resumeText: string, job: Job): AIAnalysis {
     if (eduScore === 0) gaps.push("No formal education degree keywords detected.");
     if (gaps.length === 0) gaps.push("No major gaps found.");
 
+    // Basic keyword stuffing heuristic for local NLP
+    const localWarnings: string[] = [];
+    const skillsSectionMatch = resumeText.match(/skills[:\s]*(.*?)(?=experience|projects|education|$)/is);
+    if (skillsSectionMatch) {
+        const skillsBlock = skillsSectionMatch[1];
+        const commaCount = (skillsBlock.match(/,/g) || []).length;
+        if (commaCount > 15) {
+            localWarnings.push(`Potential keyword stuffing detected: Skills section contains ${commaCount + 1} comma-separated items without supporting context.`);
+        }
+    }
+
     return {
         overallMatch,
         summary: `(Local NLP) Found ${matched.length}/${job.requiredSkills.length} required skills. Experience: ~${candidateExpYears} years.`,
@@ -72,6 +83,7 @@ function generateLocalAnalysis(resumeText: string, job: Job): AIAnalysis {
         gapAnalysis: gaps,
         evidence: [`Processed via Local NLP Engine (keyword + synonym matching).`],
         recommendation,
+        warnings: localWarnings,
     };
 }
 
@@ -97,7 +109,13 @@ export async function analyzeResume(resumeText: string, job: Job): Promise<AIAna
 
     // ============ PRIORITY 2: Gemini API (5 keys) ============
     console.log("🟡 Priority 2: Falling back to Gemini API...");
-    const prompt = `You are an expert AI recruiter. Analyze the following resume against the job requirements. Read the ENTIRE resume — every project, job, skill, certification. Look for EXPLICIT and IMPLIED skills. Return ONLY valid JSON.
+    const prompt = `You are an expert AI recruiter AND a fraud detection system. Analyze the following resume against the job requirements with deep context verification.
+
+RULES:
+1. Read the ENTIRE resume — every project, job, skill, certification.
+2. CONTEXT VERIFICATION (CRITICAL): A skill is only "Matched" if you find CLEAR EVIDENCE of it being used in a project, work experience, or certification. A skill just listed in a "Skills" section without ANY supporting context should go to "partial" NOT "matched".
+3. KEYWORD STUFFING DETECTION: If you see a large block of skills/keywords NOT supported by work experience or projects, flag it as a warning.
+4. FORMATTING/PARSING QUALITY: If the resume text looks garbled or jumbled, flag it as a formatting warning.
 
 JOB:
 - Title: ${job.title}
@@ -116,15 +134,16 @@ Return ONLY valid JSON (no markdown, no code fences):
   "overallMatch": <number 0-100>,
   "summary": "<detailed 2-3 sentence summary>",
   "skillAnalysis": {
-    "matched": ["skills found"],
+    "matched": ["skills with evidence in experience/projects"],
     "missing": ["skills NOT found"],
-    "partial": ["partially matched"]
+    "partial": ["skills listed but without evidence"]
   },
   "experienceMatch": "<experience analysis>",
   "educationMatch": "<education analysis>",
   "gapAnalysis": ["gap1", "gap2"],
   "evidence": ["evidence1", "evidence2"],
-  "recommendation": "<ACCEPTED if overallMatch >= ${job.matchThreshold}, else REJECTED>"
+  "recommendation": "<ACCEPTED if overallMatch >= ${job.matchThreshold}, else REJECTED>",
+  "warnings": ["any warnings about stuffing or formatting, or empty array if clean"]
 }`;
 
     for (let attempt = 0; attempt < API_KEYS.length; attempt++) {
@@ -139,6 +158,7 @@ Return ONLY valid JSON (no markdown, no code fences):
             const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
             const parsed: AIAnalysis = JSON.parse(cleaned);
             parsed.recommendation = parsed.overallMatch >= job.matchThreshold ? 'ACCEPTED' : 'REJECTED';
+            if (!Array.isArray(parsed.warnings)) parsed.warnings = [];
             console.log("✅ Gemini analysis successful!");
             return parsed;
         } catch (err: any) {

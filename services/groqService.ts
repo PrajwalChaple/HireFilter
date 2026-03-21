@@ -19,7 +19,14 @@ export const analyzeWithGroq = async (resumeText: string, job: Job): Promise<AIA
 
     const truncatedResume = resumeText.substring(0, 8000);
 
-    const systemPrompt = `You are an expert AI recruiter. You must analyze resumes with 100% accuracy. Read EVERY line of the resume — projects, work experience, skills section, education, certifications. Look for both EXPLICIT skills (written directly) and IMPLIED skills (e.g., "built REST APIs with Express" implies Node.js, JavaScript, Express, REST, backend). Return ONLY valid JSON, no explanation.`;
+    const systemPrompt = `You are an expert AI recruiter AND a fraud detection system. Your job is to analyze resumes with 100% accuracy AND detect manipulation tactics.
+
+RULES:
+1. READ EVERY LINE — projects, work experience, skills section, education, certifications.
+2. CONTEXT VERIFICATION (CRITICAL): A skill is only "Matched" if you find CLEAR EVIDENCE of it being used in a project, work experience, or certification. A skill just listed in a "Skills" section without ANY supporting context in experience/projects should go to "partial" NOT "matched".
+3. KEYWORD STUFFING DETECTION: If you see a large block of skills/keywords that are NOT supported by work experience or projects, flag it as a warning. This is a common cheating tactic where candidates add invisible/white text with keywords.
+4. FORMATTING/PARSING QUALITY: If the resume text looks garbled, jumbled, has random characters running together, or sections appear out of order (common with multi-column or table-based PDF layouts), flag it as a formatting warning.
+5. Return ONLY valid JSON, no explanation.`;
 
     const userPrompt = `Analyze this resume against the job requirements:
 
@@ -35,8 +42,16 @@ JOB:
 RESUME:
 ${truncatedResume}
 
+IMPORTANT ANALYSIS INSTRUCTIONS:
+- Only count a skill as "matched" if there is EVIDENCE in the work experience, projects, or certifications that the candidate actually used it.
+- If a skill is only listed in a "Skills" section without context, put it in "partial".
+- If you find a suspicious block of keywords (many skills listed without any supporting experience), add "Potential keyword stuffing detected: [X] skills found without supporting experience" to warnings.
+- If the resume text appears garbled/jumbled/unreadable in parts, add "Resume formatting issues detected: text may not have parsed correctly from the PDF" to warnings.
+- If everything looks clean and legitimate, return an empty warnings array.
+
 Return ONLY this JSON:
-{"overallMatch":<0-100>,"summary":"<detailed 2-3 sentence summary>","skillAnalysis":{"matched":["skills found in resume"],"missing":["skills NOT found"],"partial":["partially matched"]},"experienceMatch":"<experience analysis with years>","educationMatch":"<education analysis>","gapAnalysis":["specific gap 1","gap 2"],"evidence":["quote or evidence from resume"],"recommendation":"ACCEPTED or REJECTED based on ${job.matchThreshold}% threshold"}`;
+{"overallMatch":<0-100>,"summary":"<detailed 2-3 sentence summary>","skillAnalysis":{"matched":["skills with evidence"],"missing":["skills NOT found"],"partial":["skills listed but without evidence"]},"experienceMatch":"<experience analysis with years>","educationMatch":"<education analysis>","gapAnalysis":["specific gap 1","gap 2"],"evidence":["quote or evidence from resume"],"recommendation":"ACCEPTED or REJECTED based on ${job.matchThreshold}% threshold","warnings":["warning1","warning2"]}`;
+
 
     for (const model of GROQ_MODELS) {
         try {
@@ -76,6 +91,8 @@ Return ONLY this JSON:
 
             // Enforce recommendation
             parsed.recommendation = parsed.overallMatch >= job.matchThreshold ? 'ACCEPTED' : 'REJECTED';
+            // Ensure warnings is always an array
+            if (!Array.isArray(parsed.warnings)) parsed.warnings = [];
 
             return parsed;
 

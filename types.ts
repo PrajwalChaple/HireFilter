@@ -47,6 +47,7 @@ export interface AIAnalysis {
   gapAnalysis: string[];
   evidence: string[];
   recommendation: 'ACCEPTED' | 'REJECTED';
+  warnings: string[]; // e.g. "Potential keyword stuffing", "Poor PDF formatting"
 }
 
 export interface Application {

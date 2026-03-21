@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { User, Job, Application } from '../types';
 import { storageService } from '../services/storageService';
-import { ArrowLeft, Users, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Users, ChevronRight, AlertTriangle } from 'lucide-react';
 
 interface JobApplicantsProps {
     user: User;
@@ -75,6 +75,7 @@ const JobApplicants: React.FC<JobApplicantsProps> = ({ user, jobId, onBack, onVi
                         const match = app.aiAnalysis?.overallMatch || 0;
                         const accepted = app.status === 'ACCEPTED';
                         const rejected = app.status === 'REJECTED';
+                        const hasWarnings = app.aiAnalysis?.warnings && app.aiAnalysis.warnings.length > 0;
 
                         return (
                             <div
@@ -101,6 +102,11 @@ const JobApplicants: React.FC<JobApplicantsProps> = ({ user, jobId, onBack, onVi
                                                 }`}>
                                                 {app.status}
                                             </span>
+                                            {hasWarnings && (
+                                                <span className="px-2.5 py-0.5 text-xs font-bold rounded-full bg-amber-100 text-amber-700 flex items-center gap-1" title={app.aiAnalysis!.warnings.join(', ')}>
+                                                    <AlertTriangle className="w-3 h-3" /> Flagged
+                                                </span>
+                                            )}
                                         </div>
                                         <p className="text-sm text-gray-500 truncate">{app.candidateEmail}</p>
 

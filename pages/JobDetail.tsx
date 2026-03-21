@@ -276,6 +276,28 @@ const JobDetail: React.FC<JobDetailProps> = ({ user, jobId, onBack }) => {
 // Result Card — Candidate sees this after applying
 const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, job }) => {
     const accepted = analysis.recommendation === 'ACCEPTED';
+    const hasWarnings = analysis.warnings && analysis.warnings.length > 0;
+
+    // Warnings alert block — shared between accepted and rejected
+    const WarningsBlock = () => hasWarnings ? (
+        <div className="mx-8 sm:mx-10 my-6 p-5 bg-amber-50 border-2 border-amber-300 rounded-2xl">
+            <h3 className="font-bold text-amber-900 text-lg mb-3 flex items-center gap-2">
+                <span className="w-8 h-8 bg-amber-200 rounded-lg flex items-center justify-center text-amber-700">⚠️</span>
+                Resume Warnings Detected
+            </h3>
+            <ul className="space-y-2 mb-4">
+                {analysis.warnings.map((w, i) => (
+                    <li key={i} className="flex items-start gap-2 text-amber-800 text-sm">
+                        <span className="w-5 h-5 bg-amber-200 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">{i + 1}</span>
+                        <span className="leading-relaxed">{w}</span>
+                    </li>
+                ))}
+            </ul>
+            <p className="text-amber-700 text-xs font-medium leading-relaxed">
+                <strong>Tip:</strong> Use a clean, single-column resume layout. Ensure all skills listed are backed by relevant experience or projects. Avoid using hidden or white-colored text.
+            </p>
+        </div>
+    ) : null;
 
     if (accepted) {
         // ✅ ACCEPTED: Simple, elegant congratulations — no detailed breakdown needed
@@ -300,6 +322,7 @@ const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, jo
                         </div>
                     </div>
                 </div>
+                <WarningsBlock />
                 <div className="bg-green-50 px-8 py-6 text-center">
                     <p className="text-green-800 font-medium flex items-center justify-center gap-2">
                         <CheckCircle2 className="w-5 h-5" /> Your application has been submitted successfully. The recruiter will review your profile shortly.
@@ -325,6 +348,8 @@ const ResultCard: React.FC<{ analysis: AIAnalysis; job: Job }> = ({ analysis, jo
                     </div>
                 </div>
             </div>
+
+            <WarningsBlock />
 
             <div className="p-8 sm:p-10 space-y-6 bg-white">
                 {/* Missing Skills - Most Important */}
