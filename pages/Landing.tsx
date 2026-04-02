@@ -136,16 +136,16 @@ const Landing: React.FC<LandingProps> = ({ onStart }) => {
                     </div>
                 </div>
 
-                {/* Right — 3D Avatar */}
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                {/* Right — Interview Image */}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', marginTop: '-50px' }}>
                     <img
-                        src="/images/hero-avatar.png"
-                        alt="AI-powered hiring assistant"
+                        src="/images/girl.jpg"
+                        alt="Job interview with a candidate in a modern office"
                         style={{
                             width: '100%',
-                            maxWidth: '480px',
+                            maxWidth: '520px',
                             borderRadius: '24px',
-                            filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.12))',
+                            boxShadow: '0 20px 50px rgba(0,0,0,0.1)',
                         }}
                     />
                 </div>
